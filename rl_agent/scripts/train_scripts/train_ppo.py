@@ -189,14 +189,20 @@ def evaluate_during_training(ns, save_path, robot_radius):
     eval.evaluate_training(save_path)
 
 if __name__ == '__main__':
-    record_evaluation_data = False
+    record_evaluation_data = True
+    docker_mode = True
 
     rospack = rospkg.RosPack()
     rl_bringup_path = rospack.get_path('rl_bringup')
     config = configparser.ConfigParser()
     config.read('%s/config/path_config.ini'%rl_bringup_path)
     path_to_eval_data_train = config['PATHES']['path_to_eval_data_train']
-
+    
+    if(docker_mode):
+        print("docker mode")
+        with open("/data/record.txt","w") as f:
+            f.write("test"+path_to_eval_data_train)
+            
      # for running via ./entrypoint_ppo2.sh
     if (len(sys.argv) > 1):
         agent_name = str(sys.argv[1])
